@@ -1,13 +1,14 @@
 from openai import OpenAI
 import os
-from dotenv import load_dotenv
 import base64
 import streamlit as st
 import json
 from datetime import datetime
-load_dotenv()
-api_key = os.getenv("OPEN_API_KEY")
 
+# Load OpenAI API key from Streamlit secrets
+api_key = st.secrets["openai"]["api_key"]
+
+# Initialize OpenAI client
 client = OpenAI(api_key=api_key)
 
 def get_answer(messages,tools=None):

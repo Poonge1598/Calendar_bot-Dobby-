@@ -1,10 +1,7 @@
 # Hide the following files from git
 
-# Google API credentials
-client_secret_2_940046344219-0t24kfpphbn3m3liq90ira6pkom6ssq6.apps.googleusercontent.com.json
-
-# .env file
-*.env
+# Streamlit secrets
+.streamlit/
 
 # Python cache
 __pycache__/
