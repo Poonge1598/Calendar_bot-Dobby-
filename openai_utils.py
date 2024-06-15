@@ -1,4 +1,4 @@
-from openai_utils import OpenAI
+from openai import OpenAI
 import os
 import base64
 import streamlit as st
