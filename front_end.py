@@ -1,9 +1,9 @@
 from pprint import pprint
-from Google import create_service  # Ensure correct import
+from google_authentication import create_service  # Ensure correct import
 import streamlit_authenticator as stauth
 import streamlit as st
 import os
-from utils import text_to_speech, autoplay_audio, speech_to_text, ask_chatgpt_with_tools
+from openai_utils import text_to_speech, autoplay_audio, speech_to_text, ask_chatgpt_with_tools
 from audio_recorder_streamlit import audio_recorder
 from streamlit_float import *
 from google_calendar_utils import function_dict, tools

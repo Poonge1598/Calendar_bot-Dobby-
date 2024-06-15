@@ -1,4 +1,4 @@
-from openai import OpenAI
+from openai_utils import OpenAI
 import os
 import base64
 import streamlit as st
@@ -6,7 +6,7 @@ import json
 from datetime import datetime
 
 # Load OpenAI API key from Streamlit secrets
-api_key = st.secrets["openai"]["api_key"]
+api_key = st.secrets["openai"]["OPENAI_API_KEY"]
 
 # Initialize OpenAI client
 client = OpenAI(api_key=api_key)
