@@ -18,6 +18,11 @@ def get_answer(messages,tools=None):
         messages=messages,
         tools=tools
     )
+
+    for message in messages:
+        print("List of messages: ")
+        print(message)
+
     return response.choices[0].message
 
 def execute_tool_calls(service,messages, tool_calls, function_dict):

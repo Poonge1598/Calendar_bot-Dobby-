@@ -1,0 +1,10 @@
+streamlit==1.17.0
+streamlit-authenticator==0.1.0
+audio-recorder-streamlit==0.0.5
+streamlit-float==0.1.1
+google-auth-oauthlib==0.4.6
+google-api-python-client==2.42.0
+google-auth==2.6.0
+google-auth-transport-requests==2.6.0
+openai==0.6.0
+python-dotenv==0.19.2
