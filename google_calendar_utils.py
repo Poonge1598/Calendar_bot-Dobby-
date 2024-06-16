@@ -88,8 +88,6 @@ def add_event(service,meeting_name, start_time, duration_minutes=60, reminder_mi
             ]
         }
     }
-    
-    print(f'event_details:{event_details}')
 
     # Call the Calendar API to create a new event
     created_event = (
