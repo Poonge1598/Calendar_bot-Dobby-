@@ -8,7 +8,7 @@ from google_authentication import create_service  # Ensure correct import
 from openai_utils import text_to_speech, autoplay_audio, speech_to_text, ask_chatgpt_with_tools
 
 # Set page configuration
-st.set_page_config(page_title="Streamlit Basic Authentication", layout="wide")
+st.set_page_config(page_title="Dobby's magic calendar", page_icon="✨", layout="wide")
 
 def login():
     if 'authenticated' in st.session_state:
@@ -40,9 +40,6 @@ if login():
     if st.button("New"):
         initialize_messages()
     
-    # Set the title of the app
-    st.set_page_config(page_title="🧙‍♂️ Dobby's magic calendar 🧦📅✨")
-
     st.title("🧙‍♂️ Dobby's magic calendar 🧦📅✨")
 
     # Create footer container for the microphone
