@@ -28,15 +28,19 @@ if login():
     # Float feature initialization
     float_init()
 
-    def initialize_session_state():
-        if "messages" not in st.session_state:
-            st.session_state.messages = [
-                {"role": "assistant", "content": "Hi! How may I assist you today with your schedule?"}
-            ]
+    def initialize_messages():
+        st.session_state.messages = [
+            {"role": "assistant", "content": "Hi! How may I assist you today with your schedule?"}
+        ]
 
-    initialize_session_state()
+    if "messages" not in st.session_state:
+        initialize_messages()
 
-    st.title("Calendar Bot 🤖")
+    # Define a "new" button to restart the conversation
+    if st.button("New"):
+        initialize_messages()
+
+    st.title("🧙‍♂️ Dobby's chat 🧦📅✨")
 
     # Create footer container for the microphone
     footer_container = st.container()
@@ -45,8 +49,9 @@ if login():
 
     for message in st.session_state.messages:
         if isinstance(message, dict) and 'role' in message and 'content' in message:
-            with st.chat_message(message["role"]):
-                st.write(message["content"])
+            if message["role"] != "tool":
+                with st.chat_message(message["role"]):
+                    st.write(message["content"])
 
     if prompt := st.chat_input():
         st.session_state.messages.append({"role": "user", "content": prompt})
