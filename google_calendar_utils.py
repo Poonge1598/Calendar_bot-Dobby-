@@ -1,5 +1,7 @@
 from datetime import datetime,timedelta
-#from front_end import service
+import streamlit as st
+
+EMAIL_ADDRESS_MAIN_CALENDAR = st.secrets["google"]["email_address_main_calendar"]
 
 # Retrieving events from the primary calendar with flexible parameters
 def get_events(service,start_time=None, end_time=None, max_results=30, time_zone='Europe/Paris'):
@@ -14,7 +16,7 @@ def get_events(service,start_time=None, end_time=None, max_results=30, time_zone
     call_output = (
         service.events()
         .list(
-            calendarId="primary",
+            calendarId=EMAIL_ADDRESS_MAIN_CALENDAR,
             timeMin=start_time,
             timeMax=end_time,
             maxResults=max_results,
@@ -56,13 +58,13 @@ def move_event(service,event_id, new_start_time, new_end_time):
     }
 
     # Call the Calendar API to update the event
-    updated_event = (service.events().patch(calendarId="primary", eventId=event_id, body=event_details).execute())
+    updated_event = (service.events().patch(calendarId=EMAIL_ADDRESS_MAIN_CALENDAR, eventId=event_id, body=event_details).execute())
 
     return {"status": updated_event["status"]}
 
 def delete_event(service,event_id):
     try:
-        deleted_event=service.events().delete(calendarId="primary", eventId=event_id).execute()
+        deleted_event=service.events().delete(calendarId=EMAIL_ADDRESS_MAIN_CALENDAR, eventId=event_id).execute()
         return {"status": deleted_event["status"]}
     except Exception as e:
         return {"status": "Error", "message": str(e)}
@@ -92,7 +94,7 @@ def add_event(service,meeting_name, start_time, duration_minutes=60, reminder_mi
     # Call the Calendar API to create a new event
     created_event = (
         service.events()
-        .insert(calendarId="primary", body=event_details)
+        .insert(calendarId=EMAIL_ADDRESS_MAIN_CALENDAR, body=event_details)
         .execute()
     )
 

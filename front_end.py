@@ -1,50 +1,30 @@
-from pprint import pprint
-from google_authentication import create_service  # Ensure correct import
-import streamlit_authenticator as stauth
-import streamlit as st
 import os
-from openai_utils import text_to_speech, autoplay_audio, speech_to_text, ask_chatgpt_with_tools
+import streamlit as st
+from streamlit_float import float_init
 from audio_recorder_streamlit import audio_recorder
-from streamlit_float import *
+
 from google_calendar_utils import function_dict, tools
+from google_authentication import create_service  # Ensure correct import
+from openai_utils import text_to_speech, autoplay_audio, speech_to_text, ask_chatgpt_with_tools
 
-# Use secrets from Streamlit's secrets management
-CLIENT_SECRET = {
-    "installed": {
-        "client_id": st.secrets["google"]["client_id"],
-        "project_id": st.secrets["google"]["project_id"],
-        "auth_uri": st.secrets["google"]["auth_uri"],
-        "token_uri": st.secrets["google"]["token_uri"],
-        "auth_provider_x509_cert_url": st.secrets["google"]["auth_provider_x509_cert_url"],
-        "client_secret": st.secrets["google"]["client_secret"],
-        "redirect_uris": st.secrets["google"]["redirect_uris"]
-    }
-}
 
-API_NAME = 'calendar'
-API_VERSION = 'v3'
-SCOPES = ['https://www.googleapis.com/auth/calendar']
-
+# Set page configuration
 st.set_page_config(page_title="Streamlit Basic Authentication", layout="wide")
 
-#-- USER AUTHENTICATION -- 
-#@st.cache_data()
-def authenticate_user():
-    service = create_service(CLIENT_SECRET, API_NAME, API_VERSION, SCOPES)
-    if service:
-        st.session_state['authenticated'] = True
-        st.session_state['service'] = service
-
 def login():
-    if 'authenticated' not in st.session_state:
-        st.button('Login into our calendar app', key='Login', on_click=authenticate_user)
+    if 'authenticated' in st.session_state:
+        return True
     else:
-        if st.session_state['authenticated']:
+        service = create_service()
+        if service:
+            st.session_state['authenticated'] = True
+            st.session_state['service'] = service
             return True
-        else:
-            st.button('Login into our calendar app', key='Login', on_click=authenticate_user)
-            return False
+        
+        st.experimental_rerun()
 
+
+# Once we're logged in, initialize the elements
 if login():
     # Float feature initialization
     float_init()
