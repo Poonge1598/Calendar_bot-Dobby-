@@ -1,13 +1,14 @@
 from openai import OpenAI
 import os
-from dotenv import load_dotenv
 import base64
 import streamlit as st
 import json
 from datetime import datetime
-load_dotenv()
-api_key = os.getenv("OPEN_API_KEY")
 
+# Load OpenAI API key from Streamlit secrets
+api_key = st.secrets["openai"]["OPENAI_API_KEY"]
+
+# Initialize OpenAI client
 client = OpenAI(api_key=api_key)
 
 def get_answer(messages,tools=None):
@@ -70,10 +71,6 @@ def ask_chatgpt_with_tools(service,messages, function_dict, tools, verbose=False
             # Get the new answer
             message = get_answer(messages, tools=tools)
             messages.append(message)
-    
-    if verbose:
-        for message in messages:
-            print(message)
             
     return message.content
 

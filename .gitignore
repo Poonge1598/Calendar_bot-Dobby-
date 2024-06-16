@@ -1,0 +1,10 @@
+# Hide the following files from git
+
+# Streamlit secrets
+.streamlit/
+
+# Python cache
+__pycache__/
+
+# Virtual environment
+venv
