@@ -19,11 +19,6 @@ def get_answer(messages,tools=None):
         messages=messages,
         tools=tools
     )
-
-    for message in messages:
-        print("List of messages: ")
-        print(message)
-
     return response.choices[0].message
 
 def execute_tool_calls(service,messages, tool_calls, function_dict):
@@ -76,10 +71,6 @@ def ask_chatgpt_with_tools(service,messages, function_dict, tools, verbose=False
             # Get the new answer
             message = get_answer(messages, tools=tools)
             messages.append(message)
-    
-    if verbose:
-        for message in messages:
-            print(message)
             
     return message.content
 
