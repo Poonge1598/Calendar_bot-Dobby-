@@ -7,9 +7,6 @@ from google_calendar_utils import function_dict, tools
 from google_authentication import create_service  # Ensure correct import
 from openai_utils import text_to_speech, autoplay_audio, speech_to_text, ask_chatgpt_with_tools
 
-# TEST
-print(st.secrets["google"]["type"])
-
 # Set page configuration
 st.set_page_config(page_title="Streamlit Basic Authentication", layout="wide")
 
