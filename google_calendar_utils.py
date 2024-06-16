@@ -30,22 +30,22 @@ def get_events(service,start_time=None, end_time=None, max_results=30, time_zone
     # Extract the events from the response
     events = call_output.get("items", [])
 
-    # events_str_list = []
-    # for event in events:
-    #     # Extract the event information
-    #     event_id = event.get("id")
-    #     start = event.get("start", {}).get("dateTime", event.get("start", {}).get("date"))
-    #     end = event.get("end", {}).get("dateTime", event.get("end", {}).get("date"))
-    #     summary = event.get("summary", "No Title")
-    #     description = event.get("description", "No Description")
-    #     location = event.get("location", "No Location")
+    events_str_list = []
+    for event in events:
+        # Extract the event information
+        event_id = event.get("id")
+        start = event.get("start", {}).get("dateTime", event.get("start", {}).get("date"))
+        end = event.get("end", {}).get("dateTime", event.get("end", {}).get("date"))
+        summary = event.get("summary", "No Title")
+        description = event.get("description", "No Description")
+        location = event.get("location", "No Location")
 
-    #     # Format the event into a string
-    #     event_str = f"Event: {summary}\nID: {event_id}\nStart: {start}\nEnd: {end}\nDescription: {description}\nLocation: {location}"
-    #     events_str_list.append(event_str)
+        # Format the event into a string
+        event_str = f"Event: {summary}\nID: {event_id}\nStart: {start}\nEnd: {end}\nDescription: {description}\nLocation: {location}"
+        events_str_list.append(event_str)
 
-    # # Concatenate the events into a string
-    # events_str = "\n___\n".join(events_str_list)
+    # Concatenate the events into a string
+    events_str = "\n___\n".join(events_str_list)
 
     return events
 
