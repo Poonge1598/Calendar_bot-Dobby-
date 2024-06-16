@@ -39,8 +39,11 @@ if login():
     # Define a "new" button to restart the conversation
     if st.button("New"):
         initialize_messages()
+    
+    # Set the title of the app
+    st.set_page_config(page_title="🧙‍♂️ Dobby's magic calendar 🧦📅✨")
 
-    st.title("🧙‍♂️ Dobby's chat 🧦📅✨")
+    st.title("🧙‍♂️ Dobby's magic calendar 🧦📅✨")
 
     # Create footer container for the microphone
     footer_container = st.container()
