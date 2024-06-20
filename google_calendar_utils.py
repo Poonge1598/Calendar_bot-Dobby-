@@ -71,8 +71,8 @@ def delete_event(service,event_id):
 
 def add_event(service,meeting_name, start_time, duration_minutes=60, reminder_minutes=60):
     # Calculate end time based on start time and duration
-    #start_dt = datetime.fromisoformat(start_time)
-    start_dt = datetime.strptime(start_time.rstrip('Z'), "%Y-%m-%dT%H:%M:%S")
+    start_dt = datetime.fromisoformat(start_time)
+    #start_dt = datetime.strptime(start_time.rstrip('Z'), "%Y-%m-%dT%H:%M:%S")
     end_dt = start_dt + timedelta(minutes=duration_minutes)
     end_time = end_dt.isoformat()
 
