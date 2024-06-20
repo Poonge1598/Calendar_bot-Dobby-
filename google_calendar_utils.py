@@ -1,5 +1,7 @@
 from datetime import datetime,timedelta
-#from front_end import service
+import streamlit as st
+
+EMAIL_ADDRESS_MAIN_CALENDAR = st.secrets["google"]["email_address_main_calendar"]
 
 # Retrieving events from the primary calendar with flexible parameters
 def get_events(service,start_time=None, end_time=None, max_results=30, time_zone='Europe/Paris'):
@@ -14,7 +16,7 @@ def get_events(service,start_time=None, end_time=None, max_results=30, time_zone
     call_output = (
         service.events()
         .list(
-            calendarId="primary",
+            calendarId=EMAIL_ADDRESS_MAIN_CALENDAR,
             timeMin=start_time,
             timeMax=end_time,
             maxResults=max_results,
@@ -28,22 +30,22 @@ def get_events(service,start_time=None, end_time=None, max_results=30, time_zone
     # Extract the events from the response
     events = call_output.get("items", [])
 
-    # events_str_list = []
-    # for event in events:
-    #     # Extract the event information
-    #     event_id = event.get("id")
-    #     start = event.get("start", {}).get("dateTime", event.get("start", {}).get("date"))
-    #     end = event.get("end", {}).get("dateTime", event.get("end", {}).get("date"))
-    #     summary = event.get("summary", "No Title")
-    #     description = event.get("description", "No Description")
-    #     location = event.get("location", "No Location")
+    events_str_list = []
+    for event in events:
+        # Extract the event information
+        event_id = event.get("id")
+        start = event.get("start", {}).get("dateTime", event.get("start", {}).get("date"))
+        end = event.get("end", {}).get("dateTime", event.get("end", {}).get("date"))
+        summary = event.get("summary", "No Title")
+        description = event.get("description", "No Description")
+        location = event.get("location", "No Location")
 
-    #     # Format the event into a string
-    #     event_str = f"Event: {summary}\nID: {event_id}\nStart: {start}\nEnd: {end}\nDescription: {description}\nLocation: {location}"
-    #     events_str_list.append(event_str)
+        # Format the event into a string
+        event_str = f"Event: {summary}\nID: {event_id}\nStart: {start}\nEnd: {end}\nDescription: {description}\nLocation: {location}"
+        events_str_list.append(event_str)
 
-    # # Concatenate the events into a string
-    # events_str = "\n___\n".join(events_str_list)
+    # Concatenate the events into a string
+    events_str = "\n___\n".join(events_str_list)
 
     return events
 
@@ -56,21 +58,21 @@ def move_event(service,event_id, new_start_time, new_end_time):
     }
 
     # Call the Calendar API to update the event
-    updated_event = (service.events().patch(calendarId="primary", eventId=event_id, body=event_details).execute())
+    updated_event = (service.events().patch(calendarId=EMAIL_ADDRESS_MAIN_CALENDAR, eventId=event_id, body=event_details).execute())
 
     return {"status": updated_event["status"]}
 
 def delete_event(service,event_id):
     try:
-        deleted_event=service.events().delete(calendarId="primary", eventId=event_id).execute()
+        deleted_event=service.events().delete(calendarId=EMAIL_ADDRESS_MAIN_CALENDAR, eventId=event_id).execute()
         return {"status": deleted_event["status"]}
     except Exception as e:
         return {"status": "Error", "message": str(e)}
 
 def add_event(service,meeting_name, start_time, duration_minutes=60, reminder_minutes=60):
     # Calculate end time based on start time and duration
-    #start_dt = datetime.fromisoformat(start_time)
-    start_dt = datetime.strptime(start_time.rstrip('Z'), "%Y-%m-%dT%H:%M:%S")
+    start_dt = datetime.fromisoformat(start_time)
+    #start_dt = datetime.strptime(start_time.rstrip('Z'), "%Y-%m-%dT%H:%M:%S")
     end_dt = start_dt + timedelta(minutes=duration_minutes)
     end_time = end_dt.isoformat()
 
@@ -86,13 +88,11 @@ def add_event(service,meeting_name, start_time, duration_minutes=60, reminder_mi
             ]
         }
     }
-    
-    print(f'event_details:{event_details}')
 
     # Call the Calendar API to create a new event
     created_event = (
         service.events()
-        .insert(calendarId="primary", body=event_details)
+        .insert(calendarId=EMAIL_ADDRESS_MAIN_CALENDAR, body=event_details)
         .execute()
     )
 
